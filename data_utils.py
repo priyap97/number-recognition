@@ -1,1 +1,0 @@
-# Contains functions for pulling data from MNIST and encoding input data
