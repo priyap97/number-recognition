@@ -7,7 +7,7 @@ model = nengo.Network()
 with model:
 	input_node = nengo.Node([0]*784)
 	ens = nengo.Ensemble(1000,1) #Number of neurons, dimensions of the ensemble
-	output = nengo.Node(size_in=1000)
+	output = nengo.Node(size_in=1)
 	output_probe = nengo.Probe(output)
 
 	nengo.Connection(input_node, ens.neurons, synapse=None, transform=nengo_dl.dists.Glorot())
