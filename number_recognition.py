@@ -1,17 +1,17 @@
 import nengo
 import numpy as np
+import data_utils.py
 import matplotlib.pyplot as plt
 
 
 model = nengo.Network()
 with model:
-#	my_spikes = 
-#	input_node = nengo.Node(nengo.processes.PresentInput(my_spikes, 0.001))  use this function, my_spikes is calling Nikita's function
-	stim = nengo.Node([0]) #This is the input, change this using Nikita's function
+	my_spikes = encode(img1, True)
+	input_node = nengo.Node(nengo.processes.PresentInput(my_spikes, 0.001))
 	a = nengo.Ensemble(n_neurons=1000, dimensions=1)
 	b = nengo.Ensemble(n_neurons=10, dimensions=1)
 	output = nengo.Node(output=callable, size_in=1, size_out=1)
-	nengo.Connection(stim, a)
+	nengo.Connection(input_node, a)
 	nengo.Connection(a, b)
 	nengo.Connection(b,output)
     
