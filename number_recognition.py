@@ -7,11 +7,11 @@ import matplotlib.pyplot as plt
 model = nengo.Network()
 with model:
 	my_spikes = encode(img1, True)
-	input_node = nengo.Node(nengo.processes.PresentInput(my_spikes, 0.001))
-	a = nengo.Ensemble(n_neurons=1000, dimensions=1)
-	b = nengo.Ensemble(n_neurons=10, dimensions=1)
-	output = nengo.Node(output=callable, size_in=1, size_out=1)
-	nengo.Connection(input_node, a)
+	stim = nengo.Node(my_spikes)
+	a = nengo.Ensemble(n_neurons=784, dimensions=784)
+	b = nengo.Ensemble(n_neurons=1000, dimensions=784)
+	output = nengo.Node(output=callable, size_in=784, size_out=1)
+	nengo.Connection(stim, a.neurons)
 	nengo.Connection(a, b)
 	nengo.Connection(b,output)
     
