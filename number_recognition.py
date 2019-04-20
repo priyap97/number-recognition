@@ -1,12 +1,12 @@
 import nengo
 import numpy as np
-import data_utils.py
+import data_utils
 import matplotlib.pyplot as plt
 
 
 model = nengo.Network()
 with model:
-	my_spikes = encode(img1, True)
+	my_spikes = data_utils.encode(img1, True)
 	stim = nengo.Node(my_spikes)
 	a = nengo.Ensemble(n_neurons=784, dimensions=1)
 	b = nengo.Ensemble(n_neurons=1000, dimensions=1)
