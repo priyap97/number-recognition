@@ -12,11 +12,12 @@ with model:
     my_spikes = encode(img1)
     stim = nengo.Node(my_spikes)
     a = nengo.Ensemble(n_neurons=784, dimensions=1)
-    b = nengo.Ensemble(n_neurons=1000, dimensions=1)
+    #b = nengo.Ensemble(n_neurons=1000, dimensions=1)
     output = nengo.Node(output=callable, size_in=1, size_out=1)
     nengo.Connection(stim, a.neurons)
-    nengo.Connection(a, b)
-    nengo.Connection(b,output)
+    #nengo.Connection(a, b)
+    #nengo.Connection(b,output)
+    nengo.Connection(a,output)
     
 
 	
