@@ -13,7 +13,7 @@ with model:
     stim = nengo.Node(my_spikes)
     a = nengo.Ensemble(n_neurons=784, dimensions=1)
     #b = nengo.Ensemble(n_neurons=1000, dimensions=1)
-    output = nengo.Node(output=callable, size_in=1, size_out=1)
+    output = nengo.Node(output=callable, size_in=1, size_out=10)
     nengo.Connection(stim, a.neurons)
     #nengo.Connection(a, b)
     #nengo.Connection(b,output)
