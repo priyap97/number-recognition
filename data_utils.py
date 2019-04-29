@@ -21,6 +21,7 @@ for i in range(5):
         d = abs(2-i) + abs(2-j)
         w[i][j] = (-0.375)*d + 1
 
+
 def encode(img, spike = False):
     #generating membrane potential from pixels
     if(spike):
