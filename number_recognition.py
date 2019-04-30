@@ -18,14 +18,20 @@ def sparsity_measure(vector):  # Gini index
 mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
 img1 = mnist.train.images[0]
 
+#follows the default model of creating a Nengo SNN
 model = nengo.Network()
 with model:
+#Used to input data from spike trains generated from Data_utils and MNIST data
     my_spikes = encode(img1)
+#Cast input into the Nodes to be used as input
     stim = nengo.Node(my_spikes)
+#Create the layer of input that takes in the data from my_spikes
     a = nengo.Ensemble(n_neurons=784, dimensions=1)
     #b = nengo.Ensemble(n_neurons=1000, dimensions=1)
+#Create layer for output
     output = nengo.Ensemble(n_neurons=10, dimensions=1)
     # output = nengo.Node(output=callable, size_in=1, size_out=10)
+#Connections made between the input neurons, and the output neurons to the trainer
     nengo.Connection(stim, a.neurons)
     #nengo.Connection(a, b)
     #nengo.Connection(b,output)
@@ -35,13 +41,6 @@ with model:
     pre_p = nengo.Probe(a, synapse=0.01)
     post_p = nengo.Probe(output, synapse=0.01)
     weights_p = nengo.Probe(conn, 'weights', synapse=0.01, sample_every=0.01)
-
-#nengo.Connection(input_node, ens.neurons, synapse=None, transform=nengo_dl.dists.Glorot())
-	#nengo.Connection(ens.neurons, output, synapse=None, transform=nengo_dl.dists.Glorot())
-
-#with nengo_dl.Simulator(net) as sim:
-	#sim.train({input_node: spike_train}, {output_p, spike_train})
-
 
 with nengo.Simulator(model) as sim:
     sim.run(20.0)
