@@ -16,25 +16,28 @@ def sparsity_measure(vector):  # Gini index
 
 
 mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
-img1 = mnist.train.images[0]
+testing_images = mnist.train.images
+testing_encoded_data = list()
+for image in testing_images:
+    testing_encoded_data.append(encode(image))
 
 #follows the default model of creating a Nengo SNN
 model = nengo.Network()
 with model:
-#Used to input data from spike trains generated from Data_utils and MNIST data
-    my_spikes = encode(img1)
-#Cast input into the Nodes to be used as input
-    stim = nengo.Node(my_spikes)
-#Create the layer of input that takes in the data from my_spikes
+    #Cast input into the Nodes to be used as input
+    stim = nengo.Node(nengo.processes.PresentInput(testing_encoded_data, 0.1))
+
+    #Create the layer of input that takes in the data from my_spikes
     a = nengo.Ensemble(n_neurons=784, dimensions=1)
-    #b = nengo.Ensemble(n_neurons=1000, dimensions=1)
-#Create layer for output
+
+    #Create layer for output
     output = nengo.Ensemble(n_neurons=10, dimensions=1)
+
     # output = nengo.Node(output=callable, size_in=1, size_out=10)
-#Connections made between the input neurons, and the output neurons to the trainer
+
+    #Connections made between the input neurons, and the output neurons to the trainer
     nengo.Connection(stim, a.neurons)
-    #nengo.Connection(a, b)
-    #nengo.Connection(b,output)
+
     conn = nengo.Connection(a,output,solver=nengo.solvers.LstsqL2(weights=True))
     conn.learning_rule_type = nengo.Oja(learning_rate=6e-8)
 
@@ -42,6 +45,8 @@ with model:
     post_p = nengo.Probe(output, synapse=0.01)
     weights_p = nengo.Probe(conn, 'weights', synapse=0.01, sample_every=0.01)
 
+
+# Simulator Code: DOES NOT RUN IN NENGO GUI
 with nengo.Simulator(model) as sim:
     sim.run(20.0)
 
