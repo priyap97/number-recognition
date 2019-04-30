@@ -30,16 +30,20 @@ with model:
     #Create the layer of input that takes in the data from my_spikes
     a = nengo.Ensemble(n_neurons=784, dimensions=1)
 
+    # Create hidden layer
+    b = nengo.Ensemble(n_neurons=1000, dimensions=1)
+
     #Create layer for output
     output = nengo.Ensemble(n_neurons=10, dimensions=1)
-
-    # output = nengo.Node(output=callable, size_in=1, size_out=10)
 
     #Connections made between the input neurons, and the output neurons to the trainer
     nengo.Connection(stim, a.neurons)
 
-    conn = nengo.Connection(a,output,solver=nengo.solvers.LstsqL2(weights=True))
-    conn.learning_rule_type = nengo.Oja(learning_rate=6e-8)
+    conn_ab = nengo.Connection(a,b,solver=nengo.solvers.LstsqL2(weights=True))
+    conn_ab.learning_rule_type = nengo.Oja(learning_rate=6e-8)
+
+    conn_boutput = nengo.Connection(b, output, solver=nengo.solvers.LstsqL2(weights=True))
+    conn_boutput.learning_rule_type = nengo.Oja(learning_rate=6e-8)
 
     pre_p = nengo.Probe(a, synapse=0.01)
     post_p = nengo.Probe(output, synapse=0.01)
