@@ -48,24 +48,3 @@ with model:
     pre_p = nengo.Probe(a, synapse=0.01)
     post_p = nengo.Probe(output, synapse=0.01)
     weights_p = nengo.Probe(conn, 'weights', synapse=0.01, sample_every=0.01)
-
-
-# Simulator Code: DOES NOT RUN IN NENGO GUI
-with nengo.Simulator(model) as sim:
-    sim.run(20.0)
-
-    plt.figure(figsize=(12, 8))
-    plt.subplot(2, 1, 1)
-    plt.plot(sim.trange(), sim.data[pre_p], label="Pre")
-    #plt.plot(sim.trange(), sim.data[post_p], label="Post")
-    #plt.ylabel("Decoded value")
-    plt.ylim(-1.6, 1.6)
-    #plt.legend(loc="lower left")
-    #plt.subplot(2, 1, 2)
-    # Find weight row with max variance
-    neuron = np.argmax(np.mean(np.var(sim.data[weights_p], axis=0), axis=1))
-    #plt.plot(sim.trange(), sim.data[weights_p][..., neuron])
-    #plt.ylabel("Connection weight")
-    #print(
-    #    "Starting sparsity: {0}".format(sparsity_measure(sim.data[weights_p][0])))
-    #print("Ending sparsity: {0}".format(sparsity_measure(sim.data[weights_p][-1])))
