@@ -5,16 +5,6 @@ import matplotlib.pyplot as plt
 from tensorflow.examples.tutorials.mnist import input_data
 
 
-def sparsity_measure(vector):  # Gini index
-    # Max sparsity = 1 (single 1 in the vector)
-    v = np.sort(np.abs(vector))
-    n = v.shape[0]
-    k = np.arange(n) + 1
-    l1norm = np.sum(v)
-    summation = np.sum((v / l1norm) * ((n - k + 0.5) / n))
-    return 1 - 2 * summation
-
-
 mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
 testing_images = mnist.train.images
 testing_encoded_data = list()
