@@ -1,13 +1,11 @@
-import nengo
-import os
-import urllib.request as urllib
+import gzip
+import pickle
 
 
 def get_input_data():
-    # data_dir = nengo.rc.get('nengo_extras', 'data_dir')
     filename = 'mnist.pkl.gz'
-    url = 'http://deeplearning.net/data/mnist/mnist.pkl.gz'
-    # url_opener = urllib.URLopener()
-    return urllib.urlretrieve(url, filename)
+    decomp = gzip.open(filename, 'rb').read()
+    train_set, valid_set, test_set = pickle.loads(decomp, encoding='latin1')
+    return train_set, valid_set, test_set
 
 print(get_input_data())

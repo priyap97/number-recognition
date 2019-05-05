@@ -2,14 +2,14 @@ import nengo
 import data_utils
 
 mnist = data_utils.get_input_data()
-testing_images = mnist.train.images
+training_images = mnist.train_set
 
 
 #follows the default model of creating a Nengo SNN
 model = nengo.Network()
 with model:
     #Cast input into the Nodes to be used as input
-    stim = nengo.Node(nengo.processes.PresentInput(testing_images, 0.1))
+    stim = nengo.Node(nengo.processes.PresentInput(training_images, 0.1))
 
     #Create the layer of input that takes in the data from my_spikes
     a = nengo.Ensemble(n_neurons=784, dimensions=1)
