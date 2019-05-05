@@ -1,4 +1,5 @@
 nengo
 numpy
 matplotlib
-tensorflow
+urllib
+os

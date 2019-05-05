@@ -1,21 +1,15 @@
 import nengo
-import numpy as np
-from data_utils import *
-import matplotlib.pyplot as plt
-from tensorflow.examples.tutorials.mnist import input_data
+import data_utils
 
-
-mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
+mnist = data_utils.get_input_data()
 testing_images = mnist.train.images
-testing_encoded_data = list()
-for image in testing_images:
-    testing_encoded_data.append(encode(image))
+
 
 #follows the default model of creating a Nengo SNN
 model = nengo.Network()
 with model:
     #Cast input into the Nodes to be used as input
-    stim = nengo.Node(nengo.processes.PresentInput(testing_encoded_data, 0.1))
+    stim = nengo.Node(nengo.processes.PresentInput(testing_images, 0.1))
 
     #Create the layer of input that takes in the data from my_spikes
     a = nengo.Ensemble(n_neurons=784, dimensions=1)
