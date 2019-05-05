@@ -31,4 +31,4 @@ with model:
 
     pre_p = nengo.Probe(a, synapse=0.01)
     post_p = nengo.Probe(output, synapse=0.01)
-    weights_p = nengo.Probe(conn, 'weights', synapse=0.01, sample_every=0.01)
+    weights_p = nengo.Probe(conn_boutput, 'weights', synapse=0.01, sample_every=0.01)
