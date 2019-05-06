@@ -1,29 +1,31 @@
 import nengo
 import data_utils
+import numpy
 
-mnist = data_utils.get_input_data()
-training_images = mnist.train_set
+mnist = data_utils.get_input_data()[0]
+training_images = list()
+for image in mnist:
+    training_images.append(image)
 
-
-#follows the default model of creating a Nengo SNN
+# follows the default model of creating a Nengo SNN
 model = nengo.Network()
 with model:
-    #Cast input into the Nodes to be used as input
+    # Cast input into the Nodes to be used as input
     stim = nengo.Node(nengo.processes.PresentInput(training_images, 0.1))
 
-    #Create the layer of input that takes in the data from my_spikes
+    # Create the layer of input that takes in the data from my_spikes
     a = nengo.Ensemble(n_neurons=784, dimensions=1)
 
     # Create hidden layer
     b = nengo.Ensemble(n_neurons=1000, dimensions=1)
 
-    #Create layer for output
+    # Create layer for output
     output = nengo.Ensemble(n_neurons=10, dimensions=1)
 
-    #Connections made between the input neurons, and the output neurons to the trainer
+    # Connections made between the input neurons, and the output neurons to the trainer
     nengo.Connection(stim, a.neurons)
 
-    conn_ab = nengo.Connection(a,b,solver=nengo.solvers.LstsqL2(weights=True))
+    conn_ab = nengo.Connection(a, b, solver=nengo.solvers.LstsqL2(weights=True))
     conn_ab.learning_rule_type = nengo.Oja(learning_rate=6e-8)
 
     conn_boutput = nengo.Connection(b, output, solver=nengo.solvers.LstsqL2(weights=True))
