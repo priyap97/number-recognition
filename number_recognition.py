@@ -1,6 +1,5 @@
 import nengo
 import data_utils
-import numpy
 
 mnist = data_utils.get_input_data()[0]
 training_images = list()

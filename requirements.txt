@@ -1,7 +1,5 @@
 nengo
 numpy
 matplotlib
-urllib
-os
 pickle
 gzip
